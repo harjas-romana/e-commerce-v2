@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../lib/api';
 import {
   DollarSign, Package, ShoppingBag, Users,
   Plus, Edit, Trash2, X, TrendingUp, Clock,
@@ -44,9 +44,9 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     try {
       const [sR, pR, oR] = await Promise.all([
-        axios.get('/api/admin/stats'),
-        axios.get('/api/products'),
-        axios.get('/api/admin/orders'),
+        api.get('/api/admin/stats'),
+        api.get('/api/products'),
+        api.get('/api/admin/orders'),
       ]);
       setStats(sR.data);
       setProducts(pR.data);
@@ -67,8 +67,8 @@ const AdminDashboard = () => {
     e.preventDefault();
     try {
       const payload = { ...form, price: parseFloat(form.price), stock: parseInt(form.stock) };
-      if (editingProduct) await axios.put(`/api/products/${editingProduct.id}`, payload);
-      else                await axios.post('/api/products', payload);
+      if (editingProduct) await api.put(`/api/products/${editingProduct.id}`, payload);
+      else                await api.post('/api/products', payload);
       closeModal();
       fetchData();
     } catch (err) { alert('Error: ' + err.response?.data?.error); }
@@ -76,12 +76,12 @@ const AdminDashboard = () => {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this product?')) return;
-    try { await axios.delete(`/api/products/${id}`); fetchData(); }
+    try { await api.delete(`/api/products/${id}`); fetchData(); }
     catch (err) { alert('Error: ' + err.response?.data?.error); }
   };
 
   const handleStatus = async (id, status) => {
-    try { await axios.patch(`/api/orders/${id}/status`, { status }); fetchData(); }
+    try { await api.patch(`/api/orders/${id}/status`, { status }); fetchData(); }
     catch (err) { alert('Error: ' + err.response?.data?.error); }
   };
 
