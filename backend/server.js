@@ -66,8 +66,12 @@ const cacheDel = async (...keys) => {
 
 // ── Middleware ────────────────────────────────────────────────────
 app.use(cors({
-    origin: ['https://e-commerce-v2-j5dl.onrender.com'],
-    credentials: true,
+  origin: [
+    'https://e-commerce-v2-1.onrender.com',  // your frontend
+    'http://localhost:3000',                  // local dev
+    'http://localhost:4173',                  // vite preview
+  ],
+  credentials: true,
 }));
 app.use(express.json());
 
