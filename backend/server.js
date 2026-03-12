@@ -65,7 +65,10 @@ const cacheDel = async (...keys) => {
 };
 
 // ── Middleware ────────────────────────────────────────────────────
-app.use(cors());
+app.use(cors({
+    origin: ['https://e-commerce-v2-j5dl.onrender.com'],
+    credentials: true,
+}));
 app.use(express.json());
 
 // ── Auth helpers ──────────────────────────────────────────────────
